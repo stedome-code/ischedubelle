@@ -707,6 +707,39 @@
         </div>
       </section>
 
+      <section id="screen-birthday" class="screen">
+        <div class="card">
+          <h1>When is your birthdayyy?</h1>
+          <img
+            src="Images/SchedulingAssistant/birthday.png"
+            alt="birthday"
+            style="
+              width: 140px;
+              height: 100px;
+              object-fit: cover;
+              border-radius: 8px;
+              margin-bottom: 10px;
+            "
+          />
+          <div style="margin-top: 10px">
+            <textarea
+              id="birthdayInput"
+              placeholder="Tell meeee..."
+              style="
+                width: 100%;
+                min-height: 96px;
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid #ccc;
+              "
+            ></textarea>
+          </div>
+          <div style="margin-top: 12px">
+            <button id="birthdayNext" class="btn">Continue</button>
+          </div>
+        </div>
+      </section>
+
       <!-- after food check -->
       <section id="screen-backflip" class="screen">
         <div class="card">
@@ -802,6 +835,9 @@
           "
         >
           <h1>And another cat, because why not</h1>
+          <p class="muted">
+            This GIF is generated randomly, if its weird it was not me
+          </p>
           <div class="gif-box" id="gifBox">
             <img id="catGifEl" src="https://cataas.com/cat/gif" alt="cat gif" />
           </div>
@@ -1056,7 +1092,7 @@
 
       $("#btnSnowboardYes").onclick = () => {
         Swal.fire("Woah", "I knew it! :P", "success").then(() =>
-          show("#screen-activities")
+          show("#screen-birthday")
         );
       };
       $("#btnLie2").onclick = () =>
@@ -1070,6 +1106,11 @@
       $("#allergiesNext").onclick = () => {
         // no validation required; capture text
         show("#screen-backflip");
+      };
+
+      $("#birthdayNext").onclick = () => {
+        // no validation required; capture text
+        show("#screen-activities");
       };
 
       // --- Activities population (grid cards) ---
@@ -1088,42 +1129,42 @@
         {
           id: "indoor",
           title: "Random Indoor Activities",
-          desc: "I'll organize somethinnn",
+          desc: "I'll organize somethinnn (Billiard, Bowling...?)",
         },
         {
           id: "hiking",
           title: "Hiking!!!",
-          desc: "HIKINGGGGG",
+          desc: "HIKINGGGGG, PLEASE",
         },
         {
           id: "snowboarding",
           title: "Snowboarding/Skiing/Rodeln",
-          desc: "Lots of patience from your side required!",
+          desc: "still unsure & lots of patience from your side required",
         },
         {
           id: "restarant",
           title: "Crazy Fooood/Restaurant",
-          desc: "I'd pay because im scared of you lol",
+          desc: "Beat me in chess and i'll pay. That means i don't pay ;)",
         },
         {
           id: "iceskating",
           title: "IceSkating",
-          desc: "Last time I did it I was 6.",
+          desc: "Last time I did it I was 6",
         },
         {
           id: "dancing",
           title: "[Don't pick this #1] Dancing",
-          desc: "Its OUT OUT OUT of my comfort zone, but actually would rly like to learn, paradox :[",
+          desc: "Better not lol",
         },
         {
           id: "marathon",
           title: "[Don't pick this #2] Marathon",
-          desc: "You're insane if you pick this.",
+          desc: "Just a joke",
         },
         {
-          id: "game",
+          id: "favorite",
           title: "[Don't pick this #3] My favourite hobby",
-          desc: "i've never shared it on insta, but its too intense even for you, tough lady ;)",
+          desc: "i've never shared it on insta, its too intense even for you, tough lady ;)",
         },
       ];
 
@@ -1211,7 +1252,13 @@
         show("#screen-date");
       };
 
-      const unavailableDates = ["2025-12-24", "2025-12-25", "2025-12-19"];
+      const unavailableDates = [
+        "2025-12-24",
+        "2025-12-25",
+        "2025-12-19",
+        "2025-12-26",
+        "2025-12-27",
+      ];
 
       // --- Date and GIF flow ---
       const dateInput = document.getElementById("dateInput");
@@ -1239,13 +1286,14 @@
           : "none";
 
         const allergyText = $("#allergiesInput").value.trim() || "None";
+        const birthdayText = $("#birthdayInput").value.trim() || "None";
 
         const chosenActivities = [...selectedActivities];
         const t = trolleyState;
 
         const payload = {
           cat: selCat,
-          allergies: allergyText,
+          allergies: allergyText + " | " + birthdayText,
           activities: chosenActivities.join(", "),
           trolley: {
             t1: `${t[1].choice || ""} ${t[1].explanation || ""}`,
@@ -1293,7 +1341,7 @@
       // Secret button → cat gif popup
       secretBtn.onclick = () => {
         Swal.fire({
-          title: "SECREEETTTTT BUTTONNNNNN, just for ya",
+          title: "SECREEETTTTT BUTTONNNNNN",
           html: `<img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2VsYWo1YXppam1waDdkdmZrNjd1ZHYyd21iazhsam9najNkY3k4NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dnEdk09qJftEJv8YMC/giphy.gif" style="width:100%; border-radius:8px;">`,
           confirmButtonText: "wuhu",
         });
